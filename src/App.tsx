@@ -65,7 +65,7 @@ function App() {
   useEffect(() => {
     let interval = null;
     if (selectedData.length > 0) {
-      var currentDate = new Date();
+      const currentDate = new Date();
       interval = setInterval(() => {
         setFruitVegetableData(fruitVegetableData.map(data => {
           if (currentDate > selectedData[0].selectedAt) {
@@ -80,7 +80,6 @@ function App() {
 
     return () => clearInterval(interval)
   }, [selectedData]);
-
 
   function onSelected(name: string) {
     setFruitVegetableData(fruitVegetableData.map(data => {
