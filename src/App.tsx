@@ -63,12 +63,12 @@ function App() {
   }, [fruitVegetableData])
 
   useEffect(() => {
-    let interval = null;
+    let interval = undefined;
     if (selectedData.length > 0) {
       const currentDate = new Date();
       interval = setInterval(() => {
         setFruitVegetableData(fruitVegetableData.map(data => {
-          if (currentDate > selectedData[0].selectedAt) {
+          if (selectedData[0].selectedAt && currentDate > selectedData[0].selectedAt) {
             data.selectedAt = undefined
             return data
           } else {
@@ -84,7 +84,7 @@ function App() {
   function onSelected(name: string) {
     setFruitVegetableData(fruitVegetableData.map(data => {
       if (data.name === name) {
-        let t = new Date()
+        const t = new Date()
         t.setSeconds(t.getSeconds() + 5)
         data.selectedAt = t
         return data
@@ -101,7 +101,7 @@ function App() {
           <h3 style={styles.columnTitle}>{type}</h3>
         </div>
         <div style={styles.columnContent}>
-          <div style={styles.taskList}>
+          <div style={styles.taskList} data-testid={`${type}-column`}>
             {selectedData.filter(d => d.type == type).map((data, index) => (
               <div
                 key={index}
@@ -125,14 +125,14 @@ function App() {
               <h3 style={styles.columnTitle}></h3>
             </div>
             <div style={styles.columnContent}>
-              <div style={styles.taskList}>
+              <div style={styles.taskList} data-testid="main-list">
                 {unSelectData.map((data, index) => (
                   <button
                     key={index}
                     style={styles.taskCard}
                     onClick={() => onSelected(data.name)}
                   >
-                    <h4 style={styles.taskTitle}>{data.name}</h4>
+                    {data.name}
                   </button>
                 ))}
               </div>
